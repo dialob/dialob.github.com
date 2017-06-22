@@ -1,0 +1,390 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Embedding Guide · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-page-toc/page-toc.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-theme-api/theme-api.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../style_guide/" />
+    
+    
+    <link rel="prev" href="../ui_command_proto/" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../session_rest_api/">
+            
+                <a href="../session_rest_api/">
+            
+                    
+                    Session REST API
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../ui_command_proto/">
+            
+                <a href="../ui_command_proto/">
+            
+                    
+                    UI Command protocol
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.4" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Embedding Guide
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../style_guide/">
+            
+                <a href="../style_guide/">
+            
+                    
+                    Style Guide
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Embedding Guide</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="dialob-client-embedding">Dialob Client Embedding</h1>
+<p>Dialob client UI is designed to be simply embeddable to any website regardless of UI framework used.</p>
+<h2 id="minimum-setup">Minimum setup</h2>
+<p>Here is a minimum HTML boilerplate needed to get a dialob session embedded</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">DOCTYPE</span> !<span class="hljs-attr">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Dialob<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">&quot;X-UA-Compatible&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;IE=edge,chrome=1&quot;</span>/&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span>/&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/react@15.4.2/dist/react.js&quot;</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/react-dom@15.4.2/dist/react-dom.js&quot;</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/dialob-fill-ui@latest/dist/javascript/dialob.js&quot;</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/css&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://unpkg.com/dialob-fill-ui@latest/dist/css/dialob.min.css&quot;</span>/&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/css&quot;</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css&quot;</span>/&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dialob-app-content&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">var</span> options = {
+    url: <span class="hljs-string">&apos;http://localhost:8080/session/socket/df1c54ea81c5d3c8cfe400db3d012d17&apos;</span>,
+  };
+  <span class="hljs-built_in">window</span>.Dialob.renderDialob(<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&apos;dialob-app-content&apos;</span>), options);
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</code></pre>
+<ul>
+<li>React and Dialob libraries are fetched from CDN.</li>
+<li><code>&lt;div id=&quot;dialob-app-content&gt;&lt;/div&gt;</code> is a DOM node where Dialob is rendered.</li>
+<li><code>window.Dialob</code> is Dialob&apos;s global object, it has method <code>renderDialob(DOMNode, options)</code>.</li>
+<li>Hosting multiple instances of dialob clients in different DOM nodes is supported.</li>
+</ul>
+<h2 id="configuration-options">Configuration options</h2>
+<p>Full set of configuration options</p>
+<pre><code class="lang-javascript">{
+  url: <span class="hljs-string">&apos;http://localhost:8080/session/socket/df1c54ea81c5d3c8cfe400db3d012d17&apos;</span>,
+  restUrl: <span class="hljs-string">&apos;http://localhost:8080/session/dialob/df1c54ea81c5d3c8cfe400db3d012d17&apos;</span>,
+  reviewUrl: <span class="hljs-string">&apos;http://localhost:8080/review/df1c54ea81c5d3c8cfe400db3d012d17&apos;</span>,
+  connectionMode: <span class="hljs-string">&apos;websocket&apos;</span>,
+  submitCallback: submitCallbackFunction,
+  customComponentCreator: componentCreatorFunction,
+  csrf: {
+    headerName: <span class="hljs-string">&apos;x-csrf-token&apos;</span>,
+    token: <span class="hljs-string">&apos;8d594121-4b27-4665-b22c-c2d12a64c247&apos;</span>
+  }
+}
+</code></pre>
+<p>Attributes</p>
+<ul>
+<li><code>url</code> WebSocket URL to Dialob session, used if <code>connectionMode</code> is <code>websocket</code>.</li>
+<li><code>restUrl</code> REST URL to Dialob session, used if <code>connectionMode</code> is <code>rest</code>.</li>
+<li><code>reviewUrl</code> If set, Dialob shows this link to user when session is completed.</li>
+<li><code>connectionMode</code> Connection mode: <code>websocket</code> (Default) or <code>rest</code></li>
+<li><code>submitCallback</code> (Optional) An user-supplied javascript function that takes one argument (context) that is called when session is completed. (See below)</li>
+<li><code>customComponentCreatpr</code> (Optional) An user-supplied javascript function that can override and extend question item rendering. (See below)</li>
+<li><code>csrf</code> (Optional) Cross-Site Request Forgery prevention token. <code>headerName</code> HTTP header is populated with <code>token</code> value for every HTTP request to Dialob back-end</li>
+</ul>
+<h2 id="completion-callback-function">Completion callback function</h2>
+<p>Example setup:</p>
+<pre><code class="lang-javascript">
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">customSubmitCallback</span>(<span class="hljs-params">context</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;This session has been completed :&apos;</span>, context.questionnaireId);
+  }
+
+  <span class="hljs-keyword">var</span> options = {
+    url: <span class="hljs-string">&apos;http://localhost:8080/session/socket/df1c54ea81c5d3c8cfe400db3d012d17&apos;</span>,
+    submitCallback: customSubmitCallback
+  };
+  <span class="hljs-built_in">window</span>.Dialob.renderDialob(<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&apos;dialob-app-content&apos;</span>), options);
+</code></pre>
+<p>If Dialob session gets completed successfully (approved by server), <code>customSubmitCallback</code> function is called with a context object. Context object attributes:</p>
+<ul>
+<li><code>questionnaireId</code> Dialob session identifier that was completed</li>
+</ul>
+<h2 id="custom-components">Custom components</h2>
+<p>User can override or extend the rendering of built-in question components by provinding a custom component creator function. This function should return a <a href="https://facebook.github.io/react/" target="_blank">React</a> component in case desired conditions are met.</p>
+<p>Example:</p>
+<pre><code class="lang-javascript">  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myComponentCreator</span>(<span class="hljs-params">item, delegate</span>) </span>{
+    <span class="hljs-keyword">if</span> (!item) {
+      <span class="hljs-keyword">return</span> delegate(item);
+    }
+    <span class="hljs-keyword">let</span> id = item[<span class="hljs-number">0</span>];
+    <span class="hljs-keyword">var</span> jsItem = item[<span class="hljs-number">1</span>].toJS();
+    <span class="hljs-keyword">if</span> (jsItem.type === <span class="hljs-string">&apos;text&apos;</span> &amp;&amp; jsItem.className &amp;&amp; jsItem.className.includes(<span class="hljs-string">&apos;my-text-field&apos;</span>)) {
+      <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">MyTextField</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{id}</span> <span class="hljs-attr">question</span>=<span class="hljs-string">{item}</span>/&gt;</span>;
+    }
+    return delegate(item);
+  }
+
+  var options = {
+    url: &apos;http://localhost:8080/session/socket/df1c54ea81c5d3c8cfe400db3d012d17&apos;,
+    customComponentCreator: myComponentCreator
+  };
+  window.Dialob.renderDialob(document.getElementById(&apos;dialob-app-content&apos;), options);
+</span></code></pre>
+<p>This function gets two paramters, <code>item</code> - <a href="https://facebook.github.io/immutable-js/" target="_blank">Immutable.js</a> structure for item definition, and <code>delegate</code> - original component creator function. Call this delegate in default conditions to include original set of components provided by Dialob. See <a href="../ui_command_proto#handling-of-different-question-types">Question type documentation</a> to learn about possible attributes for an item.</p>
+<p>This example renders <code>&lt;MyTextField&gt;</code> React component in case item type is <code>text</code> and it has style class <code>my-text-field</code> set, otherwise it uses original components.</p>
+<p>Code for a complete example is <a href="https://github.com/dialob/dialob-fill-custom-example" target="_blank">here</a>.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Embedding Guide","level":"1.4","depth":1,"next":{"title":"Style Guide","level":"1.5","depth":1,"path":"style_guide/README.md","ref":"style_guide/README.md","articles":[]},"previous":{"title":"UI Command protocol","level":"1.3","depth":1,"path":"ui_command_proto/README.md","ref":"ui_command_proto/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","page-toc"],"root":"./docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-api":{"languages":[],"split":true,"theme":"light"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"gitbook":"*"},"file":{"path":"embedding/README.md","mtime":"2017-06-22T13:13:46.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-22T13:15:59.402Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-page-toc/anchor-3.1.1.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-page-toc/page-toc.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-theme-api/theme-api.js"></script>
+        
+    
+
+    </body>
+</html>
+
