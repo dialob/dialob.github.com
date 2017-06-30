@@ -208,7 +208,169 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="session-rest-api">Session REST API</h1>
-<h2 id="creating-new-session">Creating new session</h2>
+<h2 id="creating-a-new-session">Creating a new session</h2>
+<h3 id="request">Request</h3>
+<p>To create a new answering session for a dialog, it needs to be POSTed to server, for example:</p>
+<p><code>POST /api/questionnaires</code></p>
+<pre><code class="lang-json">{
+  <span class="hljs-string">&quot;metadata&quot;</span>:
+  {
+    <span class="hljs-string">&quot;formId&quot;</span>: <span class="hljs-string">&quot;2e3126acc2404726977963195c4d0082&quot;</span>,
+    <span class="hljs-string">&quot;formRev&quot;</span>: <span class="hljs-string">&quot;LATEST&quot;</span>,
+    <span class="hljs-string">&quot;language&quot;</span>: <span class="hljs-string">&quot;en&quot;</span>,
+    <span class="hljs-string">&quot;submitUrl&quot;</span>: <span class="hljs-string">&quot;http://whatever.example.com/rest/api&quot;</span>
+  },
+  <span class="hljs-string">&quot;context&quot;</span>: [
+  {
+    <span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;contextVar1&quot;</span>,
+    <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-number">21</span>
+  },
+  {
+    <span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;contextVar2&quot;</span>,
+    <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;test&quot;</span>
+  }]
+}
+</code></pre>
+<ul>
+<li><code>metadata</code><ul>
+<li><code>formId</code> Mandatory identifier for dialog</li>
+<li><code>formRev</code> Dialog revision to point to specific version. use <code>LATEST</code> shorthand for choosing the newest version</li>
+<li><code>language</code> 2-letter language code to choose, defaults to English (<code>en</code>)</li>
+<li><code>submitUrl</code> Optional. If this is set, session state will be POSTed as JSON to this URL when session is completed.</li>
+<li>Additional attributes with desired structure can be added to metadata and they are stored along with the session.</li>
+</ul>
+</li>
+<li><code>context</code> Optional. If dialog requires context variables to be set, list of those can be defined here.<ul>
+<li><code>id</code> Context variable name</li>
+<li><code>value</code>Context variable value</li>
+</ul>
+</li>
+</ul>
+<p><strong>Note</strong> If dialog defines a context variable without default value, it is mandatory to use it when creating a session. If default value is set, context variable can be omitted from request.</p>
+<h3 id="response">Response</h3>
+<p>In case of successful creation of answering session, server responds with code 201 and following response:</p>
+<pre><code class="lang-json">{
+  <span class="hljs-string">&quot;_id&quot;</span>:<span class="hljs-string">&quot;88f3024ec3b1e0842e65c674e80138af&quot;</span>,
+  <span class="hljs-string">&quot;_rev&quot;</span>:<span class="hljs-string">&quot;1-2374e9338682c26f3de47ec4df900578&quot;</span>
+}
+</code></pre>
+<ul>
+<li><code>_id</code> Identifier for the newly created answering session. See <a href="../ui_command_proto/">here</a></li>
+<li><code>_rev</code> Revision identifier for the session.</li>
+</ul>
+<h2 id="requesting-state-of-a-session">Requesting state of a session</h2>
+<p>Current state of an answering session can be requested by doing GET request to API, using session ID:</p>
+<p><code>GET /api/questionnaires/149263bafc142790e53ec0dc35000596</code></p>
+<h3 id="response">Response</h3>
+<pre><code class="lang-json">{
+   <span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-string">&quot;149263bafc142790e53ec0dc35000596&quot;</span>,
+   <span class="hljs-string">&quot;_rev&quot;</span>: <span class="hljs-string">&quot;3-d87687e20665f7cb165eacc068a81c9d&quot;</span>,
+   <span class="hljs-string">&quot;answers&quot;</span>: [
+       {
+           <span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;group2[2].question5&quot;</span>,
+           <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;f&quot;</span>
+       },
+       {
+           <span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;group2[2].question4&quot;</span>,
+           <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;e&quot;</span>
+       },
+       {
+           <span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;group2[2].question3&quot;</span>,
+           <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;d&quot;</span>
+       },
+       {
+           <span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;group2[1].question5&quot;</span>,
+           <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;c&quot;</span>
+       },
+       {
+           <span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;group2[1].question4&quot;</span>,
+           <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;b&quot;</span>
+       },
+       {
+           <span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;group2[1].question3&quot;</span>,
+           <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;a&quot;</span>
+       },
+       {
+           <span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;question2&quot;</span>,
+           <span class="hljs-string">&quot;value&quot;</span>: [
+               <span class="hljs-string">&quot;a&quot;</span>,
+               <span class="hljs-string">&quot;b&quot;</span>
+           ]
+       },
+       {
+           <span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;question1&quot;</span>,
+           <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;answer text&quot;</span>
+       }
+   ],
+   <span class="hljs-string">&quot;tables&quot;</span>: [
+       {
+           <span class="hljs-string">&quot;tableId&quot;</span>: <span class="hljs-string">&quot;group2&quot;</span>,
+           <span class="hljs-string">&quot;rows&quot;</span>: [
+               <span class="hljs-string">&quot;group2[1]&quot;</span>,
+               <span class="hljs-string">&quot;group2[2]&quot;</span>
+           ]
+       }
+   ],
+   <span class="hljs-string">&quot;context&quot;</span>: [
+       {
+           <span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;contextVar1&quot;</span>,
+           <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;21&quot;</span>
+       },
+       {
+           <span class="hljs-string">&quot;id&quot;</span>: <span class="hljs-string">&quot;contextVar2&quot;</span>,
+           <span class="hljs-string">&quot;value&quot;</span>: <span class="hljs-string">&quot;test&quot;</span>
+       }
+   ],
+   <span class="hljs-string">&quot;activeItem&quot;</span>: <span class="hljs-string">&quot;page1&quot;</span>,
+   <span class="hljs-string">&quot;metadata&quot;</span>: {
+       <span class="hljs-string">&quot;formId&quot;</span>: <span class="hljs-string">&quot;2e3126acc2404726977963195c4d0082&quot;</span>,
+       <span class="hljs-string">&quot;formRev&quot;</span>: <span class="hljs-string">&quot;LATEST&quot;</span>,
+       <span class="hljs-string">&quot;created&quot;</span>: <span class="hljs-string">&quot;2017-06-26T13:37:12.502+0000&quot;</span>,
+       <span class="hljs-string">&quot;lastAnswer&quot;</span>: <span class="hljs-string">&quot;2017-06-26T13:37:32.956+0000&quot;</span>,
+       <span class="hljs-string">&quot;label&quot;</span>: <span class="hljs-string">&quot;Submit test&quot;</span>,
+       <span class="hljs-string">&quot;submitUrl&quot;</span>: <span class="hljs-string">&quot;http://whatever.example.com/rest/api&quot;</span>,
+       <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-string">&quot;OPEN&quot;</span>,
+       <span class="hljs-string">&quot;language&quot;</span>: <span class="hljs-string">&quot;en&quot;</span>
+   }
+}
+</code></pre>
+<ul>
+<li><code>_id</code> Session identifier</li>
+<li><code>_rev</code> Revision identifier for the session</li>
+<li><code>activeItem</code> an item ID pointing to currently active page</li>
+<li><code>metadata</code> Session metadata<ul>
+<li><code>formId</code> Mandatory identifier for dialog</li>
+<li><code>formRev</code> Dialog revision to point to specific version. use <code>LATEST</code> shorthand for choosing the newest version</li>
+<li><code>language</code> 2-letter language code to choose, defaults to English (<code>en</code>)</li>
+<li><code>submitUrl</code> Optional. If this is set, session state will be POSTed as JSON to this URL when session is completed.</li>
+<li><code>created</code> Timestamp when the session was created.</li>
+<li><code>lastAnswer</code> Timestamp when last answer was added.</li>
+<li><code>status</code> Current status of session:<ul>
+<li><code>OPEN</code> Session is open, ready to receive answers.</li>
+<li><code>COMPLETED</code> Session is completed, will not receive any more answers.</li>
+</ul>
+</li>
+<li>Additional attributes that were added when creating the session will appear here.</li>
+</ul>
+</li>
+<li><code>context</code> Optional. If dialog requires context variables to be set, list of those can be defined here.<ul>
+<li><code>id</code> Context variable name.</li>
+<li><code>value</code>Context variable value.</li>
+</ul>
+</li>
+<li><code>answers</code> List of answers given by user:<ul>
+<li><code>id</code> Question identifier</li>
+<li><code>value</code> Answer value</li>
+</ul>
+</li>
+<li><code>tables</code> Describes references to multi-row answer rows. List of following:<ul>
+<li><code>tableId</code> Item id for multi-row group.</li>
+<li><code>rows</code> List of row identifiers, in that order. Row answer values are defined in <code>answers</code> section, with <em>id</em> combined as <code>&lt;rowId&gt;.&lt;itemId&gt;</code> (see to example above).</li>
+</ul>
+</li>
+</ul>
+<h1 id="complete-rest-api-reference">Complete REST API reference</h1>
+<p>Please refer to swagger documentation for latest API documentation.</p>
 
                                 
                                 </section>
@@ -242,7 +404,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Session REST API","level":"1.2","depth":1,"next":{"title":"UI Command protocol","level":"1.3","depth":1,"path":"ui_command_proto/README.md","ref":"ui_command_proto/README.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","page-toc"],"root":"./docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-api":{"languages":[],"split":true,"theme":"light"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"gitbook":"*"},"file":{"path":"session_rest_api/README.md","mtime":"2017-06-22T06:19:08.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-22T13:15:59.402Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Session REST API","level":"1.2","depth":1,"next":{"title":"UI Command protocol","level":"1.3","depth":1,"path":"ui_command_proto/README.md","ref":"ui_command_proto/README.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","page-toc"],"root":"./docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-api":{"languages":[],"split":true,"theme":"light"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"gitbook":"*"},"file":{"path":"session_rest_api/README.md","mtime":"2017-06-29T10:41:39.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-30T14:12:32.170Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

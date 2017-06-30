@@ -206,6 +206,241 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="dialob-client-style-guide">Dialob Client Style Guide</h1>
+<p>This describes DOM structure and CSS classes used in default implmenetation of Dialob client.
+General structure of the application is following:</p>
+<ul>
+<li>Dialog<ul>
+<li>Page<ul>
+<li>Group</li>
+<li>Item</li>
+<li>Item</li>
+<li>Group</li>
+<li>Item</li>
+<li>Item</li>
+</ul>
+</li>
+<li>Navigation controls</li>
+</ul>
+</li>
+</ul>
+<p><img src="general.png" alt=""></p>
+<div class="api-method"><div class="api-method-definition"><h2 id="dialog-structure">Dialog structure</h2>
+<p>Main questionnaire structure.</p>
+</div><div class="api-method-code"><div class="api-method-sample" data-lang="html" data-name="HTML/XML"><pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-questionnaire&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-questionnaire-title&quot;</span>&gt;</span>Dialog title<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-page&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-page-title&quot;</span>&gt;</span>Page title<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Groups here... --&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+</div></div></div>
+
+<div class="api-method"><div class="api-method-definition"><h2 id="group-structure">Group structure</h2>
+<p>Group structure. <code>dialob-description</code> block is optional and present only if description is defined.</p>
+<p>Outer <em>div</em> has <code>dialob-group</code> style class and any custom style classes defined in Composer.</p>
+</div><div class="api-method-code"><div class="api-method-sample" data-lang="html" data-name="HTML/XML"><pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-group &quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-group-title&quot;</span>&gt;</span>Group title<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-description&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>This is group description,<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>It is <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>rich<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">em</span>&gt;</span>text...<span class="hljs-tag">&lt;/<span class="hljs-name">em</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- Items here  --&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+</div></div></div>
+
+<h2 id="survey-group">Survey group</h2>
+<p>Survey group is a special group for displaying survey-type lists of questions with multiple options. Options are shared by survey questions and are defined on group level.</p>
+<p>Survey groups can be rendered horizontal, with questions arranged as rows (default) or vertical, with questions arranged as columns.</p>
+<p>Horizontal:
+<img src="surveygroup_h.png" alt=""></p>
+<p>Vertical:
+<img src="surveygroup_v.png" alt=""></p>
+<div class="api-method"><div class="api-method-definition"><p>Compared to simple group, survey group has <code>dialob-survey</code> and <code>survey</code> style classes present on its outer <em>div</em>. Questions are arranged inside <code>dialob-survey-continer</code> <em>div</em> which has either <code>dialob-survey-horizontal</code> or <code>dialob-survey-vertical</code> style classes depending on the configuration. The DOM structure is the same for both cases inside the survey container. Option labels are contained within <code>dialob-survey-header</code> container <em>div</em> and have <code>dialob-survey-header-label</code> class. Questions are contained within <code>dialob-survey-question</code> <em>div</em>, having labels in <code>dialob-survey-question-label</code> and option inputs in <code>dialob-survey-option</code>_div_s.</p>
+</div><div class="api-method-code"><div class="api-method-sample" data-lang="html" data-name="HTML/XML"><pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-group dialob-survey survey&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-group-title&quot;</span>&gt;</span>Survey Group<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-survey-container dialob-survey-horizontal&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-survey-header&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-survey-header-spacer&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-survey-header-label&quot;</span>&gt;</span>First option<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-survey-question&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-survey-question-label&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;question7&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;&quot;</span>&gt;</span>First survey question<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-survey-option&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;radio&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;question7&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+</div></div></div>
+
+<h2 id="multi-row-group">Multi-row group</h2>
+<p>Multi-row group can have zero or more rows of questions with possibility to add and remove rows.</p>
+<p><img src="multirow.png" alt=""></p>
+<div class="api-method"><div class="api-method-definition"><p>Outer <em>div</em> has all usual group style classes present plus <code>dialob-rowgroup</code>. For every row, it has additional <em>div</em> with <code>dialob-rowgroup-row</code> class. Inside of row blocks, items have the same DOM structure as usual. At the end of row block there is a <em>button</em> with <code>dialob-rowgroup-remove</code> and <code>dialob-icon-remove</code> classes for removing this row from group. At the end of the row group, there is a <em>button</em> with <code>dialob-rowgroup-add dialob-icon-add</code> style classes for adding a new row to row group.</p>
+</div><div class="api-method-code"><div class="api-method-sample" data-lang="html" data-name="HTML/XML"><pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-group dialob-rowgroup &quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-group-title&quot;</span>&gt;</span>Multi row group<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-rowgroup-row&quot;</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Column items --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-rowgroup-remove dialob-icon-remove&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-rowgroup-row&quot;</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Column items --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-rowgroup-remove dialob-icon-remove&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-rowgroup-add dialob-icon-add&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+</div></div></div>
+
+<div class="api-method"><div class="api-method-definition"><h2 id="general-item-structure">General item structure</h2>
+<p>Item structure is dependent on the item type. This is general structure that is followed by most of the items.</p>
+<p>Possible class names for item&apos;s outer <em>div</em>:</p>
+<ul>
+<li><code>dialob-item</code> always present</li>
+<li><code>dialob-itemtype-&lt;type&gt;</code> One of item type specific classes, possible values:<ul>
+<li><code>dialob-itemtype-text</code> For text and choice items</li>
+<li><code>dialob-itemtype-number</code> For number items</li>
+<li><code>dialob-itemtype-decimal</code> For decimal items</li>
+<li><code>dialob-itemtype-date</code> For date items</li>
+<li><code>dialob-itemtype-time</code> For time items</li>
+<li><code>dialob-itemtype-boolean</code> For boolean items</li>
+<li><code>dialob-itemtype-array</code> For multi-choice items</li>
+<li><code>dialob-itemtype-note</code> For note items</li>
+</ul>
+</li>
+<li><code>dialob-item-errors</code> Item has validation errors, or is required, but not asnwered</li>
+<li><code>dialob-item-valid</code> Item is answered, and valid</li>
+<li><code>dialob-item-answered</code> Item is answered</li>
+<li>Any custom style classes defined in Composer</li>
+</ul>
+<p><code>dialob-description</code> block is optional and present only if description is defined.</p>
+<p>Input control has generated unique <code>id</code> and <code>name</code> js matching item ID.
+<code>&lt;label&gt;</code> is linked for the input control.</p>
+<p>In case of unanswered mandatory items, <code>&lt;label&gt;</code> has <code>dialob-icon-required</code> style class present.</p>
+<p>In case any validation errors, <code>dialob-errors</code> block is present with one or more error messages with <code>dialob-error</code> and <code>dialob-icon-error</code> style classes.</p>
+</div><div class="api-method-code"><div class="api-method-sample" data-lang="html" data-name="HTML/XML"><p>Normal case</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-item dialob-itemtype-text&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;dialob-control-question1&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;&quot;</span>&gt;</span>Question title<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-description&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>This is question description<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Also<span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>rich<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">em</span>&gt;</span>text.<span class="hljs-tag">&lt;/<span class="hljs-name">em</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dialob-control-question1&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;question1&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+<p>Required case</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-item dialob-itemtype-text  dialob-item-errors&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;dialob-control-question2&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-icon-required&quot;</span>&gt;</span>Mandatory question<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dialob-control-question2&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;question2&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+<p>Validation errors</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-item dialob-itemtype-text  dialob-item-errors&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;dialob-control-question3&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;&quot;</span>&gt;</span>Question with validation errors<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dialob-control-question3&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;question3&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-errors&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-error dialob-icon-error&quot;</span>&gt;</span>A validation message<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-error dialob-icon-error&quot;</span>&gt;</span>Another validation message<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+</div></div></div>
+
+<h2 id="specific-item-types">Specific item types</h2>
+<h3 id="simple-entry-items">Simple entry items</h3>
+<p>Simple entry items are using corresponding HTML entry elements as input controls:</p>
+<ul>
+<li>text<ul>
+<li><code>&lt;input type=&quot;text&quot; /&gt;</code></li>
+</ul>
+</li>
+<li>textbox<ul>
+<li><code>&lt;textarea&gt;&lt;/textarea&gt;</code></li>
+</ul>
+</li>
+<li>decimal<ul>
+<li><code>&lt;input type=&quot;number&quot; /&gt;</code></li>
+</ul>
+</li>
+<li>number<ul>
+<li><code>&lt;input type=&quot;number&quot; /&gt;</code></li>
+</ul>
+</li>
+<li>time<ul>
+<li><code>&lt;input type=&quot;time&quot; /&gt;</code></li>
+</ul>
+</li>
+<li>date<ul>
+<li><code>&lt;input type=&quot;date&quot; /&gt;</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="boolean">Boolean</h3>
+<div class="api-method"><div class="api-method-definition"><p><img src="boolean.png" alt=""></p>
+<p>As Normal checkbox doesn&apos;t make distinction between <em>not set</em> and <em>false</em> states, a custom component is used with a structure as shown.</p>
+<p>Yes / No elements will have <code>dialob-tristate-active</code> style class present, if selected.</p>
+</div><div class="api-method-code"><div class="api-method-sample" data-lang="html" data-name="HTML/XML"><pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-item dialob-itemtype-boolean &quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;dialob-control-question14&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;&quot;</span>&gt;</span>Boolean<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dialob-control-question14&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-tristate-control&quot;</span> <span class="hljs-attr">tabindex</span>=<span class="hljs-string">&quot;0&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-tristate-true&quot;</span>&gt;</span>Yes<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-tristate-false&quot;</span>&gt;</span>No<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;
+    /<span class="hljs-attr">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+</div></div></div>
+
+<h3 id="choice">Choice</h3>
+<div class="api-method"><div class="api-method-definition"><p>For <em>choice</em> type, HTML <code>select</code> / <code>option</code> dropdown control is used.</p>
+</div><div class="api-method-code"><div class="api-method-sample" data-lang="html" data-name="HTML/XML"><pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-item dialob-itemtype-text &quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;dialob-control-question15&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;&quot;</span>&gt;</span>Choice<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;dialob-control-question15&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;question15&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>First option<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>Second option<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+</div></div></div>
+
+<h3 id="multi-choice">Multi-choice</h3>
+<div class="api-method"><div class="api-method-definition"><p>For multi-choice items, a list of checkboxes is used with a DOM structure as shown. <code>&lt;input&gt;</code>&apos;s will have also <code>dialob-checkbox-checked</code> style class added if the choice is checked.</p>
+</div><div class="api-method-code"><div class="api-method-sample" data-lang="html" data-name="HTML/XML"><pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-item dialob-itemtype-array &quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;question151&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;&quot;</span>&gt;</span>Multi-choice<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-multichoice-option&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;checkbox&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;question151[a]&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-checkbox&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;false&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;question151[a]&quot;</span>&gt;</span>First option<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-multichoice-option&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;checkbox&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;question151[b]&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-checkbox&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;false&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;question151[b]&quot;</span>&gt;</span>Second option<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+</div></div></div>
+
+<h3 id="note">Note</h3>
+<div class="api-method"><div class="api-method-definition"><p>Note is rendered as a rich-text block from markdown source. No user interaction.</p>
+</div><div class="api-method-code"><div class="api-method-sample" data-lang="html" data-name="HTML/XML"><pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;dialob-item dialob-itemtype-note &quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>This Is Note<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+</div></div></div>
+
+
+
 
                                 
                                 </section>
@@ -239,7 +474,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Style Guide","level":"1.5","depth":1,"previous":{"title":"Embedding Guide","level":"1.4","depth":1,"path":"embedding/README.md","ref":"embedding/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","page-toc"],"root":"./docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-api":{"languages":[],"split":true,"theme":"light"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"gitbook":"*"},"file":{"path":"style_guide/README.md","mtime":"2017-06-22T06:19:44.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-22T13:15:59.402Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Style Guide","level":"1.5","depth":1,"previous":{"title":"Embedding Guide","level":"1.4","depth":1,"path":"embedding/README.md","ref":"embedding/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","page-toc"],"root":"./docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-api":{"languages":[],"split":true,"theme":"light"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"gitbook":"*"},"file":{"path":"style_guide/README.md","mtime":"2017-06-30T14:09:01.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-30T14:12:32.170Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
